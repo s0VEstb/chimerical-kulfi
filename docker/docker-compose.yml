@@ -11,10 +11,12 @@ services:
     depends_on:
       - postgres_db
     command: >
-      sh -c "python3 manage.py makemigrations &&
+      sh -c "sleep 10 &&
+      python3 manage.py makemigrations &&
       python3 manage.py migrate &&
       python3 manage.py collectstatic --no-input &&
       gunicorn core.wsgi:application --bind 0.0.0.0:8000 --log-level info"
+
     volumes:
       - static_volume:/usr/src/app/back_static/
       - media_volume:/usr/src/app/back_media/
