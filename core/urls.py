@@ -6,6 +6,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('apps.main_page.urls')),
     path('api/v1/', include('apps.basket.urls')), 
+    path('api/v1/', include('apps.user.urls')),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),  # JSON схема
 
     # Swagger UI
