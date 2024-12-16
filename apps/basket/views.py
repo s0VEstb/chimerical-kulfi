@@ -2,7 +2,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import Cart, CartItem, Product
 from .serializers import CartSerializer, CartItemSerializer
-from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -29,7 +29,10 @@ class CartItemListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         user = self.request.user
         cart, created = Cart.objects.get_or_create(user=user)
-        product_id = self.request.data['product']
+        product_id = self.request.data.get('product')
+        if not product_id:
+            raise ValidationError({'product': 'This field is required.'})
+        print(self.request.data)
         
         # Проверяем наличие товара
         try:
